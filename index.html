@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="style.css" rel="stylesheet" type="text/css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <nav id="nav">
+        <a link="">Home</a>
+        <a link=""></a>
+    </nav>
+
+    <section class="hero">
+        <btn id="home-btn"></btn> <!--to go to finances-->
+    </section>
+
+    <section id="header"><p>Hello Hailey!</p>
+
+    </section><!--show finance graphs-->
+    <section id="graphs">
+        <div class="card">
+            <div>
+                <canvas id="myChart"></canvas>
+            </div>              
+        </div>
+        <!-- <div class="card">
+            stuff
+        </div>-->
+    </section>
+
+<!--add expenses and income-->
+    <section>
+        <div>
+            <form id="spendingForm">
+                <label for="spendingNum">Enter spending total:</label>
+                <input id="spendingNum" type="number">
+                <button type="button" onclick="addExpenses()">submit</button>
+            </form>
+        </div>
+        <button id="spending-btn">Add new spending</button>
+        <div>
+            <form id="budgetForm">
+                <label for="savingNum">Enter budget total:</label>
+                <input id="savingNum" type="number">
+                <button type="button" onclick="addIncome()">submit</button>
+            </form>
+        </div>
+        <button>Add income</button>
+    </section>
+
+
+    <script src="script.js"></script>
+    <script src="chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+    //chart
+    const ctx = document.getElementById('myChart');
+    //chart values
+    let expenses = [];
+    let income = [];
+    let spending;
+    let saved;
+    
+
+    const myChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+        labels: ['Spending', 'Saved'],
+        datasets: [{
+        label: '$',
+        data: [0, 0, 0, 0],
+        borderWidth: 0,
+        backgroundColor:[
+        '#651fff',
+        '242526'
+        ]
+        }]
+    },
+    options: {
+        scales: {
+        y: {
+            beginAtZero: true
+        }
+        }
+        
+    }
+    });
+
+    
+    function updateChartData(){
+        let sum = [spending, saved];
+        myChart.data.datasets[0].data = sum;
+        myChart.update();
+    
+    };
+
+    function addExpenses(){
+        spending = 0;
+        let x = document.getElementById('spendingNum').value;
+        x = x * 1;
+        expenses.push(x);
+        for(let i = 0; i < expenses.length; i++){
+            spending += expenses[i];
+        }
+        updateChartData();
+    };
+
+
+
+    function addIncome(){
+        saved = 0;
+        let y = document.getElementById('savingNum').value;
+        y = y * 1;
+        income.push(y);
+        for(let i = 0; i < income.length; i++){
+            saved += income[i];
+        }
+        updateChartData();
+    };
+
+
+
+    
+    </script>
+
+</body>
+</html>
